@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<driverManifest>
+  <driver
+		id="{2bd13624-4b18-4557-abf2-ae86be5cf5d5}"
+
+    name="DewPoint"
+    author="Remote Technologies Inc."
+    copyright="Copyright 2020 Remote Technologies Inc."
+    deviceManufacturer="Remote Technologies Inc."
+    deviceModel="DewPoint"
+		driverVersion="1.0"
+		minimumSoftwareVersion="9.0"
+		processorType="XP-8"
+
+		configSettingsStream="ConfigSettings.xml"
+		systemFunctionsStream="SystemFunctions.xml"
+		systemEventsStream="SystemEvents.xml"
+		systemVariablesStream="SystemVariables.xml"
+		helpTextStream="instructions.rtf"
+  >
+    <processorScript stream="dewpoint.js" />
+    <package>
+      <output filename="DewPoint" public="true"/>
+      <include filename="DewPoint.rti" />
+    </package>
+  </driver>
+</driverManifest>

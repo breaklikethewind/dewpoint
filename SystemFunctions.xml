@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<functions>
+  <category name="Calculations">
+    <function name="Calc Dewpoint In Celsius" export="DewpointCelsius" repeatrate="0" >
+      <parameter name="Temperature" type="integer" default="30"/>
+      <parameter name="Humidity" type="integer" default="30" />
+     </function>
+     <function name="Convert Fahrenheit Temp To Celsius" export="TempCelsius" repeatrate="0" >
+      <parameter name="Temperature" type="integer" default="30" />
+     </function>
+     <function name="Convert Celsius Temp To Fahrenheit" export="TempFahrenheit" repeatrate="0" >
+      <parameter name="Temperature" type="integer" default="30" />
+     </function>
+  </category>
+</functions>

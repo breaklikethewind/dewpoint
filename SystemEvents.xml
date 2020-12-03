@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<events>
+  <category name="Events">
+    <event name="Dew Point Baffle Open Zone: %%ZoneName1%%"  tag="OpenEventName1" condition="len $ZoneName1" />
+    <event name="Dew Point Baffle Close Zone: %%ZoneName1%%"  tag="CloseEventName1" condition="len $ZoneName1" />
+    <event name="Dew Point Baffle Open Zone: %%ZoneName2%%"  tag="OpenEventName2" condition="len $ZoneName2" />
+    <event name="Dew Point Baffle Close Zone: %%ZoneName2%%"  tag="CloseEventName2" condition="len $ZoneName2" />
+    <event name="Dew Point Baffle Open Zone: %%ZoneName3%%"  tag="OpenEventName3" condition="len $ZoneName3" />
+    <event name="Dew Point Baffle Close Zone: %%ZoneName3%%"  tag="CloseEventName3" condition="len $ZoneName3" />
+    <event name="Dew Point Baffle Open Zone: %%ZoneName4%%"  tag="OpenEventName4" condition="len $ZoneName4" />
+    <event name="Dew Point Baffle Close Zone: %%ZoneName4%%"  tag="CloseEventName4" condition="len $ZoneName4" />
+    <event name="Dew Point Baffle Open Zone: %%ZoneName5%%"  tag="OpenEventName5" condition="len $ZoneName5" />
+    <event name="Dew Point Baffle Close Zone: %%ZoneName5%%"  tag="CloseEventName5" condition="len $ZoneName5" />
+    <event name="Dew Point Baffle Open Zone: %%ZoneName6%%"  tag="OpenEventName6" condition="len $ZoneName6" />
+    <event name="Dew Point Baffle Close Zone: %%ZoneName6%%"  tag="CloseEventName6" condition="len $ZoneName6" />
+    <event name="Dew Point Baffle Open Zone: %%ZoneName7%%"  tag="OpenEventName7" condition="len $ZoneName7" />
+    <event name="Dew Point Baffle Close Zone: %%ZoneName7%%"  tag="CloseEventName7" condition="len $ZoneName7" />
+    <event name="Dew Point Baffle Open Zone: %%ZoneName8%%"  tag="OpenEventName8" condition="len $ZoneName8" />
+    <event name="Dew Point Baffle Close Zone: %%ZoneName8%%"  tag="CloseEventName8" condition="len $ZoneName8" />
+    <event name="Dew Point Baffle Open Zone: %%ZoneName9%%"  tag="OpenEventName9" condition="len $ZoneName9" />
+    <event name="Dew Point Baffle Close Zone: %%ZoneName9%%"  tag="CloseEventName9" condition="len $ZoneName9" />
+    <event name="Dew Point Baffle Open Zone: %%ZoneName10%%"  tag="OpenEventName10" condition="len $ZoneName10" />
+    <event name="Dew Point Baffle Close Zone: %%ZoneName10%%"  tag="CloseEventName10" condition="len $ZoneName10" />    
+  </category>
+</events>

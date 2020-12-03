@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <category name="Zone 1" description="Temp, Humidity zone" >
+    <setting type="string" name="Zone Name 1" variable="ZoneName1" default="" description="The name of the temp humidity space" />
+    <setting type="boolean" name="Use Fahrenheit units" variable="UnitsFahrenheit1" description="Use Fahrenheit temp measurements, otherwise Celsius units are used" />
+    <setting type="sysvarint" name="Temperature Sysvar" variable="TemperatureSysvar1" description="Temperature variable used for calculation" />    
+    <setting type="sysvarint" name="Humidity Sysvar" variable="HumiditySysvar1" description="Humidity variable used for calculation" />    
+    <setting type="string" name="Inlet Zone Name" variable="InletZone1" default="" description="The name of the inlet zone to control a baffle" />
+    <setting type="integer" name="Inlet Baffle Delta" variable="DehumidifyDelta1" description="Dewpoint temperature differential to open baffle" />
+    <setting type="sysmacro" name="Open Baffle Macro" variable="OpenInletMacro1" description="Macro to call when the dewpoint on the inlet zone is less than the current zone" />
+    <setting type="sysmacro" name="Close Baffle Macro" variable="CloseInletMacro1" description="Macro to call when the dewpoint on the inlet zone is more than the current zone" />
+  </category>
+  <category name="Zone 2" description="Temp, Humidity zone" condition="len $ZoneName1" >
+    <setting type="string" name="Zone Name" variable="ZoneName2" default="" description="The name of the temp humidity space" />
+    <setting type="boolean" name="Use Fahrenheit units" variable="UnitsFahrenheit2" description="Use Fahrenheit temp measurements, otherwise Celsius units are used" />
+    <setting type="sysvarint" name="Temperature Sysvar" variable="TemperatureSysvar2" description="Temperature variable used for calculation" />    
+    <setting type="sysvarint" name="Humidity Sysvar" variable="HumiditySysvar2" description="Humidity variable used for calculation" />    
+    <setting type="string" name="Inlet Zone Name" variable="InletZone2" default="" description="The name of the inlet zone to control a baffle" />
+    <setting type="integer" name="Inlet Baffle Delta" variable="DehumidifyDelta2" description="Dewpoint temperature differential to open baffle" />
+    <setting type="sysmacro" name="Open Baffle Macro" variable="OpenInletMacro2" description="Macro to call when the dewpoint on the inlet zone is less than the current zone" />
+    <setting type="sysmacro" name="Close Baffle Macro" variable="CloseInletMacro2" description="Macro to call when the dewpoint on the inlet zone is more than the current zone" />
+  </category>
+  <category name="Zone 3" description="Temp, Humidity zone" condition="len $ZoneName2" >
+    <setting type="string" name="Zone Name" variable="ZoneName3" default="" description="The name of the temp humidity space" />
+    <setting type="boolean" name="Use Fahrenheit units" variable="UnitsFahrenheit3" description="Use Fahrenheit temp measurements, otherwise Celsius units are used" />
+    <setting type="sysvarint" name="Temperature Sysvar" variable="TemperatureSysvar3" description="Temperature variable used for calculation" />    
+    <setting type="sysvarint" name="Humidity Sysvar" variable="HumiditySysvar3" description="Humidity variable used for calculation" />    
+    <setting type="string" name="Inlet Zone Name" variable="InletZone3" default="" description="The name of the inlet zone to control a baffle" />
+    <setting type="integer" name="Inlet Baffle Delta" variable="DehumidifyDelta3" description="Dewpoint temperature differential to open baffle" />
+    <setting type="sysmacro" name="Open Baffle Macro" variable="OpenInletMacro3" description="Macro to call when the dewpoint on the inlet zone is less than the current zone" />
+    <setting type="sysmacro" name="Close Baffle Macro" variable="CloseInletMacro3" description="Macro to call when the dewpoint on the inlet zone is more than the current zone" />
+  </category>
+  <category name="Zone 4" description="Temp, Humidity zone" condition="len $ZoneName3" >
+    <setting type="string" name="Zone Name" variable="ZoneName4" default="" description="The name of the temp humidity space" />
+    <setting type="boolean" name="Use Fahrenheit units" variable="UnitsFahrenheit4" description="Use Fahrenheit temp measurements, otherwise Celsius units are used" />
+    <setting type="sysvarint" name="Temperature Sysvar" variable="TemperatureSysvar4" description="Temperature variable used for calculation" />    
+    <setting type="sysvarint" name="Humidity Sysvar" variable="HumiditySysvar4" description="Humidity variable used for calculation" />    
+    <setting type="string" name="Inlet Zone Name" variable="InletZone4" default="" description="The name of the inlet zone to control a baffle" />
+    <setting type="integer" name="Inlet Baffle Delta" variable="DehumidifyDelta4" description="Dewpoint temperature differential to open baffle" />
+    <setting type="sysmacro" name="Open Baffle Macro" variable="OpenInletMacro4" description="Macro to call when the dewpoint on the inlet zone is less than the current zone" />
+    <setting type="sysmacro" name="Close Baffle Macro" variable="CloseInletMacro4" description="Macro to call when the dewpoint on the inlet zone is more than the current zone" />
+  </category>
+  <category name="Zone 5" description="Temp, Humidity zone" condition="len $ZoneName4" >
+    <setting type="string" name="Zone Name" variable="ZoneName5" default="" description="The name of the temp humidity space" />
+    <setting type="boolean" name="Use Fahrenheit units" variable="UnitsFahrenheit5" description="Use Fahrenheit temp measurements, otherwise Celsius units are used" />
+    <setting type="sysvarint" name="Temperature Sysvar" variable="TemperatureSysvar5" description="Temperature variable used for calculation" />    
+    <setting type="sysvarint" name="Humidity Sysvar" variable="HumiditySysvar5" description="Humidity variable used for calculation" />    
+    <setting type="string" name="Inlet Zone Name" variable="InletZone5" default="" description="The name of the inlet zone to control a baffle" />
+    <setting type="integer" name="Inlet Baffle Delta" variable="DehumidifyDelta5" description="Dewpoint temperature differential to open baffle" />
+    <setting type="sysmacro" name="Open Baffle Macro" variable="OpenInletMacro5" description="Macro to call when the dewpoint on the inlet zone is less than the current zone" />
+    <setting type="sysmacro" name="Close Baffle Macro" variable="CloseInletMacro5" description="Macro to call when the dewpoint on the inlet zone is more than the current zone" />
+  </category>
+  <category name="Zone 6" description="Temp, Humidity zone" condition="len $ZoneName5" >
+    <setting type="string" name="Zone Name" variable="ZoneName6" default="" description="The name of the temp humidity space" />
+    <setting type="boolean" name="Use Fahrenheit units" variable="UnitsFahrenheit6" description="Use Fahrenheit temp measurements, otherwise Celsius units are used" />
+    <setting type="sysvarint" name="Temperature Sysvar" variable="TemperatureSysvar6" description="Temperature variable used for calculation" />    
+    <setting type="sysvarint" name="Humidity Sysvar" variable="HumiditySysvar6" description="Humidity variable used for calculation" />    
+    <setting type="string" name="Inlet Zone Name" variable="InletZone6" default="" description="The name of the inlet zone to control a baffle" />
+    <setting type="integer" name="Inlet Baffle Delta" variable="DehumidifyDelta6" description="Dewpoint temperature differential to open baffle" />
+    <setting type="sysmacro" name="Open Baffle Macro" variable="OpenInletMacro6" description="Macro to call when the dewpoint on the inlet zone is less than the current zone" />
+    <setting type="sysmacro" name="Close Baffle Macro" variable="CloseInletMacro6" description="Macro to call when the dewpoint on the inlet zone is more than the current zone" />
+  </category>
+  <category name="Zone 7" description="Temp, Humidity zone" condition="len $ZoneName6" >
+    <setting type="string" name="Zone Name" variable="ZoneName7" default="" description="The name of the temp humidity space" />
+    <setting type="boolean" name="Use Fahrenheit units" variable="UnitsFahrenheit7" description="Use Fahrenheit temp measurements, otherwise Celsius units are used" />
+    <setting type="sysvarint" name="Temperature Sysvar" variable="TemperatureSysvar7" description="Temperature variable used for calculation" />    
+    <setting type="sysvarint" name="Humidity Sysvar" variable="HumiditySysvar7" description="Humidity variable used for calculation" />    
+    <setting type="string" name="Inlet Zone Name" variable="InletZone7" default="" description="The name of the inlet zone to control a baffle" />
+    <setting type="integer" name="Inlet Baffle Delta" variable="DehumidifyDelta7" description="Dewpoint temperature differential to open baffle" />
+    <setting type="sysmacro" name="Open Baffle Macro" variable="OpenInletMacro7" description="Macro to call when the dewpoint on the inlet zone is less than the current zone" />
+    <setting type="sysmacro" name="Close Baffle Macro" variable="CloseInletMacro7" description="Macro to call when the dewpoint on the inlet zone is more than the current zone" />
+  </category>
+  <category name="Zone 8" description="Temp, Humidity zone" condition="len $ZoneName7" >
+    <setting type="string" name="Zone Name" variable="ZoneName8" default="" description="The name of the temp humidity space" />
+    <setting type="boolean" name="Use Fahrenheit units" variable="UnitsFahrenheit8" description="Use Fahrenheit temp measurements, otherwise Celsius units are used" />
+    <setting type="sysvarint" name="Temperature Sysvar" variable="TemperatureSysvar8" description="Temperature variable used for calculation" />    
+    <setting type="sysvarint" name="Humidity Sysvar" variable="HumiditySysvar8" description="Humidity variable used for calculation" />    
+    <setting type="string" name="Inlet Zone Name" variable="InletZone8" default="" description="The name of the inlet zone to control a baffle" />
+    <setting type="integer" name="Inlet Baffle Delta" variable="DehumidifyDelta8" description="Dewpoint temperature differential to open baffle" />
+    <setting type="sysmacro" name="Open Baffle Macro" variable="OpenInletMacro8" description="Macro to call when the dewpoint on the inlet zone is less than the current zone" />
+    <setting type="sysmacro" name="Close Baffle Macro" variable="CloseInletMacro8" description="Macro to call when the dewpoint on the inlet zone is more than the current zone" />
+  </category>
+  <category name="Zone 9" description="Temp, Humidity zone" condition="len $ZoneName8" >
+    <setting type="string" name="Zone Name" variable="ZoneName9" default="" description="The name of the temp humidity space" />
+    <setting type="boolean" name="Use Fahrenheit units" variable="UnitsFahrenheit9" description="Use Fahrenheit temp measurements, otherwise Celsius units are used" />
+    <setting type="sysvarint" name="Temperature Sysvar" variable="TemperatureSysvar9" description="Temperature variable used for calculation" />    
+    <setting type="sysvarint" name="Humidity Sysvar" variable="HumiditySysvar9" description="Humidity variable used for calculation" />    
+    <setting type="string" name="Inlet Zone Name" variable="InletZone9" default="" description="The name of the inlet zone to control a baffle" />
+    <setting type="integer" name="Inlet Baffle Delta" variable="DehumidifyDelta9" description="Dewpoint temperature differential to open baffle" />
+    <setting type="sysmacro" name="Open Baffle Macro" variable="OpenInletMacro9" description="Macro to call when the dewpoint on the inlet zone is less than the current zone" />
+    <setting type="sysmacro" name="Close Baffle Macro" variable="CloseInletMacro9" description="Macro to call when the dewpoint on the inlet zone is more than the current zone" />
+  </category>
+  <category name="Zone 10" description="Temp, Humidity zone" condition="len $ZoneName9" >
+    <setting type="string" name="Zone Name" variable="ZoneName10" default="" description="The name of the temp humidity space" />
+    <setting type="boolean" name="Use Fahrenheit units" variable="UnitsFahrenheit10" description="Use Fahrenheit temp measurements, otherwise Celsius units are used" />
+    <setting type="sysvarint" name="Temperature Sysvar" variable="TemperatureSysvar10" description="Temperature variable used for calculation" />    
+    <setting type="sysvarint" name="Humidity Sysvar" variable="HumiditySysvar10" description="Humidity variable used for calculation" />    
+    <setting type="string" name="Inlet Zone Name" variable="InletZone10" default="" description="The name of the inlet zone to control a baffle" />
+    <setting type="integer" name="Inlet Baffle Delta" variable="DehumidifyDelta10" description="Dewpoint temperature differential to open baffle" />
+    <setting type="sysmacro" name="Open Baffle Macro" variable="OpenInletMacro10" description="Macro to call when the dewpoint on the inlet zone is less than the current zone" />
+    <setting type="sysmacro" name="Close Baffle Macro" variable="CloseInletMacro10" description="Macro to call when the dewpoint on the inlet zone is more than the current zone" />
+  </category>
+  <category name="Debug Settings" description="Driver debug options" hidden="true">
+    <setting type="boolean" name="Enable Trace" variable="DebugTrace" description="Enable verbose debug output" />
+  </category>
+</configuration>
+
+
+
+

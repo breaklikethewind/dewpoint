@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<variables>
+  <category name="String Variables">
+		<variable name="%%ZoneName1%% Dew Point" sysvar="DewPoint1" type="integer" condition="len $ZoneName1"  />
+		<variable name="%%ZoneName2%% Dew Point" sysvar="DewPoint2" type="integer" condition="len $ZoneName2"  />
+		<variable name="%%ZoneName3%% Dew Point" sysvar="DewPoint3" type="integer" condition="len $ZoneName3"  />
+		<variable name="%%ZoneName4%% Dew Point" sysvar="DewPoint4" type="integer" condition="len $ZoneName4"  />
+		<variable name="%%ZoneName5%% Dew Point" sysvar="DewPoint5" type="integer" condition="len $ZoneName5"  />
+		<variable name="%%ZoneName6%% Dew Point" sysvar="DewPoint6" type="integer" condition="len $ZoneName6"  />
+		<variable name="%%ZoneName7%% Dew Point" sysvar="DewPoint7" type="integer" condition="len $ZoneName7"  />
+		<variable name="%%ZoneName8%% Dew Point" sysvar="DewPoint8" type="integer" condition="len $ZoneName8"  />
+		<variable name="%%ZoneName9%% Dew Point" sysvar="DewPoint9" type="integer" condition="len $ZoneName9"  />
+		<variable name="%%ZoneName10%% Dew Point" sysvar="DewPoint10" type="integer" condition="len $ZoneName10"  />
+  </category>
+
+</variables>
