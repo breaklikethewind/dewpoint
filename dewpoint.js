@@ -21,7 +21,7 @@
 //  Globals
 var g_Zone = new Array();
 var g_Debug = Boolean(Config.Get("DebugTrace") == "true");
-var g_MaxZoness = 0;
+var g_MaxZones = 0;
 
 System.Print("DewPoint: Initializing Driver\r\n");
 
@@ -62,13 +62,14 @@ function Zone(i)
 	this.ZoneName = Config.Get("ZoneName" + i);
 	
 	// Zone parameters
-	this.UnitsFahrenheit = Boolean(Config.Get("UnitsFahrenheit") == "true");
-	this.TemperatureSysvar = parseInt(Config.Get("TemperatureSysvar" + i));	
-	this.HumiditySysvar = parseInt(Config.Get("HumiditySysvar" + i));
+	this.UnitsFahrenheit = Boolean(Config.Get("UnitsFahrenheit" + i) == "true");
+	this.TemperatureSysvarID = parseInt(Config.Get("TemperatureSysvar" + i));	
+	this.TemperatureDivisor = parseInt(Config.Get("TemperatureDivisor" + i));	
+	this.HumiditySysvarID = parseInt(Config.Get("HumiditySysvar" + i));
 	this.DehumidifyDelta = parseInt(Config.Get("DehumidifyDelta" + i));
 	this.InletZoneName = Config.Get("InletZone" + i);
-	this.OpenInletMacro = parseInt(Config.Get("OpenInletMacro" + i));
-	this.CloseInletMacro = parseInt(Config.Get("CloseInletMacro" + i));
+	this.OpenInletMacroID = parseInt(Config.Get("OpenInletMacro" + i));
+	this.CloseInletMacroID = parseInt(Config.Get("CloseInletMacro" + i));
 	
 	// Zone calculations
 	this.LastDewpoint = 0.0;
@@ -82,12 +83,123 @@ function ZoneNameToIndex(name)
 	i = 0;
 	do {
 		i++;
-	} while ( (i < g_maxDevices) && (g_Zone[i].ZoneName != name) );
+	} while ( (i < g_MaxZones) && (g_Zone[i].ZoneName != name) );
 	
-	if (i < g_maxDevices)
+	if (i <= g_MaxZones)
 		return i;
 	else
 		return 0;
+}
+
+function FindOutletZoneFromInlet(zonenum)
+{
+	i = 0;
+	do {
+		i++;
+	} while ( (i < g_MaxZones) && (g_Zone[zonenum].ZoneName != g_Zone[i].InletZoneName) );
+	
+	if (i <= g_MaxZones)
+		return i;
+	else
+		return 0;
+
+}
+
+function TestSwitchBaffle(zonenum, InletIndex)
+{
+	// Is this zone an outlet?
+	inletzone = FindOutletZoneFromInlet(zonenum);
+	if (inletzone == 0)
+		inletzone = zonenum;
+	
+	// Do we have an inlet zone baffle?
+	if (g_Zone[inletzone].InletZoneName.length)
+	{
+		DebugPrint("Inlet zone (" + InletIndex +") " + g_Zone[inletzone].InletZoneName);
+		
+		// Is the inlet DP rising or falling?
+		if (g_Zone[InletIndex].CurrentDewpoint > g_Zone[InletIndex].LastDewpoint)
+		{
+			// Rising DP (inlet zone getting wetter)	
+			DebugPrint("Inlet zone rising");
+			
+			if (g_Zone[inletzone].InletOpen) // If inlet is open
+			{
+				if (!isNaN(g_Zone[inletzone].CloseInletMacroID))
+				{
+					DebugPrint("Running macro " + g_Zone[inletzone].CloseInletMacroID);
+					System.RunSystemMacro(g_Zone[inletzone].CloseInletMacroID);
+				}
+				
+				DebugPrint("Setting Event " + "CloseEventName" + inletzone);
+				System.SignalEvent("CloseEventName" + inletzone);
+			
+				g_Zone[inletzone].InletOpen = false;	
+			}						
+		}
+		else
+		{
+			// Falling DP (inlet zone getting dryer)			
+			DebugPrint("Inlet zone falling");
+		
+			if (!g_Zone[inletzone].InletOpen) // If inlet is closed
+			{
+				// Is the dewpoint differance low enough in the inlet zone to open baffle?
+				if (g_Zone[inletzone].CurrentDewpoint > (g_Zone[inletzone].DehumidifyDelta + g_Zone[InletIndex].CurrentDewpoint))
+				{
+					if (!isNaN(g_Zone[inletzone].OpenInletMacroID))
+					{
+						DebugPrint("Running macro " + g_Zone[inletzone].OpenInletMacroID);
+						System.RunSystemMacro(g_Zone[inletzone].OpenInletMacroID);
+					}
+					
+					DebugPrint("Setting Event " + "OpenEventName" + inletzone);
+					System.SignalEvent("OpenEventName" + inletzone);
+					
+					g_Zone[inletzone].InletOpen = true;
+				}
+			}
+		}
+	}
+}
+
+function CalcDewpointSysvar(zonenum)
+{
+	if (zonenum <= g_MaxZones)
+	{
+		Temp = SystemVars.Read(g_Zone[zonenum].TemperatureSysvarID);
+		if (g_Zone[zonenum].TemperatureDivisor > 1)
+			Temp = Temp / g_Zone[zonenum].TemperatureDivisor;
+
+		// If we are in Fahrenheit mode convert to Celsius for dewpoint calculation
+		if (g_Zone[zonenum].UnitsFahrenheit)
+		{
+			DebugPrint("Convert " + Temp + " to Celsius");
+			Temp = TempCelsius(Temp);
+		}
+		
+		Humidity = SystemVars.Read(g_Zone[zonenum].HumiditySysvarID);
+		DebugPrint("Calc dewpoint from " + Temp + "C and " + Humidity + "%");
+		dp = DewpointCelsius(Temp, Humidity);
+		
+		// If we are in Fahrenheit mode convert dewpoint result to Fahrenheit
+		if (g_Zone[zonenum].UnitsFahrenheit)
+		{
+			DebugPrint("Convert dewpoint " + dp + " to Fahrenheit");
+			dp = TempFahrenheit(dp);
+		}
+		
+		g_Zone[zonenum].LastDewpoint = g_Zone[zonenum].CurrentDewpoint;
+		g_Zone[zonenum].CurrentDewpoint = dp;
+
+		SystemVars.Write("DewPoint" + zonenum, Math.round(g_Zone[zonenum].CurrentDewpoint));
+		
+		DebugPrint(g_Zone[zonenum].ZoneName + " Dew Point: " + g_Zone[zonenum].CurrentDewpoint);
+		
+		InletIndex = ZoneNameToIndex(g_Zone[zonenum].InletZoneName);
+
+		TestSwitchBaffle(zonenum, InletIndex);
+	}
 }
 
 // Identify the number of zones
@@ -96,21 +208,21 @@ for (var i = 1; i <= 10; i++) {
 	var ZoneName = Config.Get("ZoneName" + i);
 	
 	if (ZoneName != "") { // If there is a name, then we have a zone to calculate
-		g_MaxZoness++;
+		g_MaxZones++;
 		
 		g_Zone[i] = new Zone(i);
 		
-		if (!SystemVars.AddSubscription(g_Zone[i].TemperatureSysvar))
-			g_Zone[i].TemperatureSysvar = undefined;
+		if (!SystemVars.AddSubscription(g_Zone[i].TemperatureSysvarID))
+			g_Zone[i].TemperatureSysvarID = undefined;
 		else
-			DebugPrint("Add Temperature Subscription #" + g_Zone[i].TemperatureSysvar + ": " + g_Zone[i].ZoneName);
+			DebugPrint("Add Temperature Subscription #" + g_Zone[i].TemperatureSysvarID + ": " + g_Zone[i].ZoneName);
 		
-		if (!SystemVars.AddSubscription(g_Zone[i].HumiditySysvar))
-			g_Zone[i].HumiditySysvar = undefined;
+		if (!SystemVars.AddSubscription(g_Zone[i].HumiditySysvarID))
+			g_Zone[i].HumiditySysvarID = undefined;
 		else
-			DebugPrint("Add Humidity Subscription #" + g_Zone[i].HumiditySysvar + ": " + g_Zone[i].ZoneName);
+			DebugPrint("Add Humidity Subscription #" + g_Zone[i].HumiditySysvarID + ": " + g_Zone[i].ZoneName);
 		
-		DebugPrint("Adding Dewpoint Zone: " + g_Zone[i].ZoneName);
+		DebugPrint("Added Dewpoint Zone: (" + i + ") " + g_Zone[i].ZoneName);
 	}
 }
 
@@ -119,94 +231,17 @@ SystemVars.OnSysVarChangeFunc = SysvarChange;
 function SysvarChange(varnum)
 {
 	var i = 0;
-	var readvarnum;
-	
-	readvarnum = SystemVars.Read(varnum);
 	
 	// Find the index of the device
 	i = 0;
 	do {
 		i++;
-	} while ( (i < g_maxDevices) && (g_Zone[i].TemperatureSysvar != varnum) && (g_Zone[i].HumiditySysvar != varnum) );
+	} while ( (i < g_MaxZones) && (g_Zone[i].TemperatureSysvarID != varnum) && (g_Zone[i].HumiditySysvarID != varnum) );
 		
-	if (i < g_maxDevices)
+	if (i <= g_MaxZones)
 	{
-		// If we are in Fahrenheit mode convert to Celsius for dewpoint calculation
-		if (g_Zone[i].UnitsFahrenheit)
-		{
-			Temp = TempCelsius(g_Zone[i].TemperatureSysvar);
-		}
-		else
-		{
-			Temp = g_Zone[i].TemperatureSysvar;
-		}
-		
-		dp = DewpointCelsius(Temp, g_Zone[i].HumiditySysvar);
-		
-		// If we are in Fahrenheit mode convert dewpoint result to Fahrenheit
-		if (g_Zone[i].UnitsFahrenheit)
-		{
-			Temp = TempFahrenheit(dp);
-		}
-		else
-		{
-			Temp = dp;
-		}
-		
-		g_Zone[i].LastDewpoint = g_Zone[i].CurrentDewpoint;
-		g_Zone[i].CurrentDewpoint = Temp;
-
-		SystemVars.Write("DewPoint" + i, g_Zone[i].CurrentDewpoint);
-		
-		DebugPrint(g_Zone[i].)ZoneName + "Dew Point: " + g_Zone[i].CurrentDewpoint);
-		
-		// Do we have an inlet zone baffle?
-		if (g_Zone[i].InletZoneName.length)
-		{
-			InletIndex = ZoneNameToIndex(g_Zone[i].InletZoneName);
-			
-			// Is the inlet DP rising or falling?
-			if (g_Zone[InletIndex].CurrentDewpoint > g_Zone[InletIndex].LastDewpoint)
-			{
-				// Rising DP (inlet zone getting wetter)	
-				
-				if (g_Zone[i].InletOpen) // If inlet is open
-				{
-					if (!isNaN(g_Zone[i].CloseInletMacro))
-					{
-						DebugPrint("Running macro " + g_Zone[i].CloseInletMacro);
-						System.RunSystemMacro(g_Zone[i].CloseInletMacro);
-					}
-					
-					DebugPrint("Setting Event " + "CloseEventName" + i);
-					System.SignalEvent("CloseEventName" + i);
-				
-					g_Zone[i].InletOpen = false;	
-				}						
-			}
-			else
-			{
-				// Falling DP (inlet zone getting dryer)			
-			
-				if (!g_Zone[i].InletOpen) // If inlet is closed
-				{
-					// Is the dewpoint differance low enough in the inlet zone to open baffle?
-					if (g_Zone[i].CurrentDewpoint > (g_Zone[i].DehumidifyDelta + g_Zone[InletIndex].CurrentDewpoint))
-					{
-						if (!isNaN(g_Zone[i].OpenInletMacro))
-						{
-							DebugPrint("Running macro " + g_Zone[i].OpenInletMacro);
-							System.RunSystemMacro(g_Zone[i].OpenInletMacro);
-						}
-						
-						DebugPrint("Setting Event " + "OpenEventName" + i);
-						System.SignalEvent("OpenEventName" + i);
-						
-						g_Zone[i].InletOpen = true;
-					}
-				}
-			}
-		}
+		DebugPrint("Updating Dewpoint Zone: (" + i + ") " + g_Zone[i].ZoneName);
+		CalcDewpointSysvar(i);
 	}
 }
 
